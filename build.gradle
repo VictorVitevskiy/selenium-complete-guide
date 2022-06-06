@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.vitevskiy'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.2.1'
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.0-alpha7'
+
+
+}
+
+test {
+    useJUnitPlatform()
+}
