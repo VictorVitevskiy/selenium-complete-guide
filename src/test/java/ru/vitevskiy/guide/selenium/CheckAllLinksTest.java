@@ -1,6 +1,11 @@
 package ru.vitevskiy.guide.selenium;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public class CheckAllLinksTest extends BaseTest{
 
@@ -11,55 +16,20 @@ public class CheckAllLinksTest extends BaseTest{
         adminLoginPage.enterAdminCredentials();
         adminLoginPage.clickLoginButton();
 
-        LiteCartAdminPage adminPage = new LiteCartAdminPage();
-        adminPage.openLinkByTitle("Appearence").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Template").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Logotype").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Catalog").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Product Groups").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Option Groups").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Manufacturers").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Suppliers").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Delivery Statuses").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Sold Out Statuses").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Quantity Units").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("CSV Import/Export").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Countries").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Currencies").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Customers").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("CSV Import/Export").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Newsletter").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Geo Zones").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Languages").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Storage Encoding").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Modules").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Customer").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Shipping").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Payment").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Order Total").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Order Success").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Order Action").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Orders").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Order Statuses").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Pages").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Reports").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Most Sold Products").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Most Shopping Customers").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Settings").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Defaults").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("General").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Listings").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Images").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Checkout").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Advanced").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Security").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Slides").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Tax").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Tax Rates").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Translations").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("Scan Files").checkForHeaderPresent();
-        adminPage.openNestedLinkByTitle("CSV Import/Export").checkForHeaderPresent();
-        adminPage.openLinkByTitle("Users").checkForHeaderPresent();
-        adminPage.openLinkByTitle("vQmods").checkForHeaderPresent();
+        List<WebElement> elementList = driver.findElements(By.xpath("//li[@id='app-']/a/span[@class='name']"));
+
+        for (int i = 0; i < elementList.size(); i++) {
+            List<WebElement> element = driver.findElements(By.xpath(String.format("(//li[@id='app-']/a/span[@class='name'])[%d]", i + 1)));
+            element.get(0).click();
+            Assertions.assertNotNull(driver.findElements(By.xpath("//h1")));
+            List<WebElement> element1 = driver.findElements(By.xpath("//ul[@class='docs']//span[@class='name']"));
+            if (element1 != null) {
+                for (int i1 = 0; i1 < element1.size(); i1++) {
+                    List<WebElement> element2 = driver.findElements(By.xpath(String.format("(//ul[@class='docs']//span[@class='name'])[%d]", i1 + 1)));
+                    element2.get(0).click();
+                    Assertions.assertNotNull(driver.findElements(By.xpath("//h1")));
+                }
+            }
+        }
     }
 }

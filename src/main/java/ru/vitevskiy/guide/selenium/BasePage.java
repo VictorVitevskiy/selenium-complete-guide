@@ -43,7 +43,7 @@ public class BasePage {
         return element;
     }
 
-    protected WebElement waitForElementAndSendKeys(String locator, String value, String errorMessage) {
+    public WebElement waitForElementAndSendKeys(String locator, String value, String errorMessage) {
         return waitForElementAndSendKeys(locator, value, errorMessage, DEFAULT_TIMEOUT);
     }
 
