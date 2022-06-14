@@ -1,13 +1,15 @@
 package ru.vitevskiy.guide.selenium;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CountrySortTest extends BaseTest {
 
@@ -25,9 +27,14 @@ public class CountrySortTest extends BaseTest {
 
         Comparator<String> comparator = String::compareTo;
         List<WebElement> elementList = driver.findElements(By.xpath("//tr[@class='row']/td[5]/a"));
+        List<String> countryNameList = new ArrayList<>();
 
-        for (int i = 0; i < elementList.size() - 1; i++) {
-            Assertions.assertTrue(comparator.compare(elementList.get(i).getText(), elementList.get(i + 1).getText()) < 0);
+        for (WebElement element : elementList) {
+            countryNameList.add(element.getText());
+        }
+
+        for (int i = 0; i < countryNameList.size() - 1; i++) {
+            assertTrue(comparator.compare(countryNameList.get(i), countryNameList.get(i + 1)) < 0);
         }
     }
 
@@ -35,17 +42,23 @@ public class CountrySortTest extends BaseTest {
     void countryZonesAlphabeticalOrderTest() {
 
         Comparator<String> comparator = String::compareTo;
-        int elementNumber = driver.findElements(By.xpath("//tr[@class='row']/td[6][not(text()='0')]/..")).size();
+
+        String countriesWithZonesLocator = "//tr[@class='row']/td[6][not(text()='0')]/..";
+        int elementNumber = driver.findElements(By.xpath(countriesWithZonesLocator)).size();
 
         for (int i = 1; i <= elementNumber; i++) {
-            WebElement element = driver.findElement(By.xpath(String.format("(//tr[@class='row']/td[6][not(text()='0')]/..)[%d]", i)));
+            WebElement element = driver.findElement(By.xpath(String.format("(%s)[%d]", countriesWithZonesLocator, i)));
             element.findElement(By.xpath("./td[5]/a")).click();
 
-            List<WebElement> elementList = driver.findElements(By.xpath("//*[contains(@name, 'zones')][contains(@name, '[name]')]"));
+            List<WebElement> elementList = driver.findElements(By.xpath("//a[@id='remove-zone']/../../td[3]"));
+            List<String> geoZoneNameList = new ArrayList<>();
 
-            for (int j = 0; j < elementList.size() - 1; j++) {
-                Assertions.assertTrue(
-                        comparator.compare(elementList.get(j).getAttribute("value"), elementList.get(j + 1).getAttribute("value")) < 0);
+            for (WebElement webElement : elementList) {
+                geoZoneNameList.add(webElement.getText());
+            }
+
+            for (int j = 0; j < geoZoneNameList.size() - 1; j++) {
+                assertTrue(comparator.compare(geoZoneNameList.get(j), geoZoneNameList.get(j + 1)) < 0);
             }
             if (i == elementNumber) {
                 break;
