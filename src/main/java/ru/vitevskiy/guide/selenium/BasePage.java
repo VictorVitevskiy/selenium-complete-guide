@@ -9,9 +9,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.regex.Pattern;
 
+//import static ru.vitevskiy.guide.selenium.Browser.driver;
+
 public class BasePage {
 
-    private static final WebDriver driver = Browser.getDriver();
+    private final WebDriver driver = Browser.getInstance().getDriver();
 
     private static final long DEFAULT_TIMEOUT = 5;
 

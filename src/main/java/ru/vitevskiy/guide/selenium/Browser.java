@@ -16,7 +16,7 @@ public class Browser {
     private static final String TESTING_PROGRAM_URL = "http://localhost/litecart/";
 
     private static Browser instance;
-    private static WebDriver driver;
+    private WebDriver driver;
 
     private Browser() {}
 
@@ -27,11 +27,18 @@ public class Browser {
         return instance;
     }
 
-    public static WebDriver getDriver() {
+    public WebDriver getDriver() {
         if (driver == null) {
             driver = Browser.getInstance().driverInitialization();
         }
         return driver;
+    }
+
+    public void driverQuit() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
     }
 
     private WebDriver driverInitialization() {
