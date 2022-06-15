@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckStickerTest extends BaseTest {
 
@@ -18,7 +18,10 @@ public class CheckStickerTest extends BaseTest {
 
         for (WebElement product : products) {
             List<WebElement> sticker = product.findElements(By.cssSelector(".sticker"));
-            assertNotNull(sticker);
+            assertAll(
+                    () -> assertTrue(sticker.size() != 0),
+                    () -> assertFalse(sticker.size() > 1)
+            );
         }
     }
 }
