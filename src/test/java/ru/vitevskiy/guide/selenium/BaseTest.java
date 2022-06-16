@@ -3,6 +3,7 @@ package ru.vitevskiy.guide.selenium;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
+import ru.vitevskiy.guide.selenium.util.Browser;
 
 public class BaseTest {
 

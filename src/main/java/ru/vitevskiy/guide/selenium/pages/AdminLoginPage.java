@@ -1,4 +1,6 @@
-package ru.vitevskiy.guide.selenium;
+package ru.vitevskiy.guide.selenium.pages;
+
+import ru.vitevskiy.guide.selenium.pages.BasePage;
 
 public class AdminLoginPage extends BasePage {
 
