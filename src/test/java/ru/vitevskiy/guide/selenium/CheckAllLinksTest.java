@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import ru.vitevskiy.guide.selenium.pages.AdminLoginPage;
 
 import java.util.List;
 

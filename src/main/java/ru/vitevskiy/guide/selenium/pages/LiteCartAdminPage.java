@@ -1,4 +1,4 @@
-package ru.vitevskiy.guide.selenium;
+package ru.vitevskiy.guide.selenium.pages;
 
 public class LiteCartAdminPage extends BasePage {
 
