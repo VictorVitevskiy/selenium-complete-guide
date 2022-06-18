@@ -1,13 +1,12 @@
 package ru.vitevskiy.guide.selenium.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.vitevskiy.guide.selenium.util.Browser;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.regex.Pattern;
 
 //import static ru.vitevskiy.guide.selenium.util.Browser.driver;
@@ -46,8 +45,25 @@ public class BasePage {
         return element;
     }
 
-    public WebElement waitForElementAndSendKeys(String locator, String value, String errorMessage) {
+    protected WebElement waitForElementAndSendKeys(String locator, String value, String errorMessage) {
         return waitForElementAndSendKeys(locator, value, errorMessage, DEFAULT_TIMEOUT);
+    }
+
+    protected String getElementValue(String locator, String errorMessage){
+        return waitForElementPresent(locator, errorMessage).getText();
+    }
+
+    protected boolean isElementPresent(String locator) {
+        try {
+            driver.findElement(getLocatorByString(locator));
+            return true;
+        } catch (NoSuchElementException nsee) {
+            return false;
+        }
+    }
+
+    protected List<WebElement> getAllElementsByLocator(String locator) {
+        return driver.findElements(getLocatorByString(locator));
     }
 
     private By getLocatorByString(String locatorWithType) {
