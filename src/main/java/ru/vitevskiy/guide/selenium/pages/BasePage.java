@@ -1,6 +1,7 @@
 package ru.vitevskiy.guide.selenium.pages;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.vitevskiy.guide.selenium.util.Browser;
@@ -13,15 +14,26 @@ import java.util.regex.Pattern;
 
 public class BasePage {
 
-    private final WebDriver driver = Browser.getInstance().getDriver();
+    protected final WebDriver driver = Browser.getInstance().getDriver();
 
     private static final long DEFAULT_TIMEOUT = 5;
+
+    public BasePage() {
+        PageFactory.initElements(driver, this);
+    }
 
     protected WebElement waitForElementPresent(String locator, String errorMessage, long timeoutInSeconds) {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
         wait.withMessage(errorMessage + "\n");
         return wait.until(ExpectedConditions.presenceOfElementLocated(getLocatorByString(locator)));
+    }
+
+    protected WebElement waitForElementPresent(WebElement element, String errorMessage, long timeoutInSeconds) {
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+        wait.withMessage(errorMessage + "\n");
+        return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
     protected WebElement waitForElementPresent(String locator, String errorMessage) {
@@ -34,6 +46,13 @@ public class BasePage {
         element.click();
         return element;
     }
+
+    protected WebElement waitForElementAndClick(WebElement element, String errorMessage, long timeoutInSeconds) {
+
+        waitForElementPresent(element, errorMessage, timeoutInSeconds).click();
+        return element;
+    }
+
     protected WebElement waitForElementAndClick(String locator, String errorMessage) {
         return waitForElementAndClick(locator, errorMessage, DEFAULT_TIMEOUT);
     }
@@ -53,10 +72,9 @@ public class BasePage {
         return waitForElementPresent(locator, errorMessage).getText();
     }
 
-    protected boolean isElementPresent(String locator) {
+    protected boolean isElementPresent(WebElement element) {
         try {
-            driver.findElement(getLocatorByString(locator));
-            return true;
+            return element.isDisplayed();
         } catch (NoSuchElementException nsee) {
             return false;
         }

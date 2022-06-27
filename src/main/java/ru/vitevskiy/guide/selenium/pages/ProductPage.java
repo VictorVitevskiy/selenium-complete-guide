@@ -1,20 +1,20 @@
 package ru.vitevskiy.guide.selenium.pages;
 
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
 public class ProductPage extends BasePage {
 
-    private static final String ADD_TO_CART_BUTTON = "xpath://button[@value='Add To Cart']";
-    private static final String CHOOSE_PRODUCT_SIZE = "xpath://select/option[@value='Small']";
+    @FindBy(xpath = "//button[@value='Add To Cart']")
+    private WebElement addToCartButton;
+
+    @FindBy(xpath = "//select/option[@value='Small']")
+    private WebElement chooseProductSize;
 
     public void clickAddToCartButton() {
-        if (isElementPresent(CHOOSE_PRODUCT_SIZE)) {
-            waitForElementAndClick(
-                    CHOOSE_PRODUCT_SIZE,
-                    "Can't click product size"
-            );
+        if (isElementPresent(chooseProductSize)) {
+            chooseProductSize.click();
         }
-        waitForElementAndClick(
-                ADD_TO_CART_BUTTON,
-                "Can't find 'Add To Cart' button"
-        );
+        addToCartButton.click();
     }
 }

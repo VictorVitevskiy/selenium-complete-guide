@@ -1,39 +1,40 @@
 package ru.vitevskiy.guide.selenium.pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
 public class HomePage extends BasePage {
 
-    private static final String HOME_BUTTON = "xpath://*[@title='Home']";
-    private static final String CART_BUTTON = "xpath://*[contains(text(),'Checkout')]";
-    private static final String PRODUCT_LOCATOR = "css:.product";
-    private static final String CART_ADDING_ITEMS = "xpath://span[@class='quantity'][text()='{NUMBER}']";
+    @FindBy(xpath = "//*[@title='Home']")
+    public WebElement homeButton;
 
+    @FindBy(xpath = "//*[contains(text(),'Checkout')]")
+    public WebElement cartButton;
+
+    @FindBy(css = ".product")
+    public WebElement productElement;
 
     public void clickHomeButton() {
-        waitForElementAndClick(
-                HOME_BUTTON,
-                "Can't find 'Home' button"
-        );
+        homeButton.click();
     }
 
     public void clickCartButton() {
-        waitForElementAndClick(
-                CART_BUTTON,
-                "Can't find 'Checkout' button"
-        );
+       cartButton.click();
     }
 
     public void clickProductElement() {
-        waitForElementAndClick(
-                PRODUCT_LOCATOR,
-                "Can't find product"
-        );
+        productElement.click();
     }
 
-    public boolean checkProductAddingToTheCart(String number) {
-        waitForElementPresent(
-                CART_ADDING_ITEMS.replace("{NUMBER}", number),
-                "Can't find number of cart adding items"
-        );
-        return true;
+    public HomePage checkProductAddingToTheCart(int number) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(String.format("//span[@class='quantity'][text()='%d']", number))));
+
+        return this;
     }
 }

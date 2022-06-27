@@ -3,6 +3,7 @@ package ru.vitevskiy.guide.selenium;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
+import ru.vitevskiy.guide.selenium.app.Application;
 import ru.vitevskiy.guide.selenium.util.Browser;
 
 import java.io.IOException;
@@ -18,10 +19,12 @@ public class BaseTest {
     private static final String PATH_TO_PRODUCT_INFORMATION_PROPERTIES = "src/test/resources/productInformation.properties";
 
     protected WebDriver driver;
+    protected Application application;
 
     @BeforeEach
     void start() {
         driver = Browser.getInstance().getDriver();
+        application = new Application();
     }
 
     @AfterEach

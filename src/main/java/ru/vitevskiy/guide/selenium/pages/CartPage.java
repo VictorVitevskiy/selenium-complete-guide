@@ -1,23 +1,30 @@
 package ru.vitevskiy.guide.selenium.pages;
 
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
+
 public class CartPage extends BasePage {
 
-    private static final String REMOVE_BUTTON = "xpath://button[text()='Remove']";
-    private static final String PRODECT_TYPES_IN_CART = "xpath://*[@class='header']/following-sibling::*/*[@class='item']";
-    private static final String EMPTY_CART = "xpath://em";
+    @FindBy(xpath = "//button[text()='Remove']")
+    private WebElement removeButton;
+
+    @FindBy(xpath = "//*[@class='header']/following-sibling::*/*[@class='item']")
+    private List<WebElement> productTypesInCart;
+
+    @FindBy(xpath = "//em")
+    private WebElement emptyCart;
 
     public void clickRemoveButton() {
-        waitForElementAndClick(
-                REMOVE_BUTTON,
-                "Can't find 'Remove' button"
-        );
+        removeButton.click();
     }
 
     public int getNumberOfProductTypes() {
-         return getAllElementsByLocator(PRODECT_TYPES_IN_CART).size();
+         return productTypesInCart.size();
     }
 
     public boolean checkForEmptyCart() {
-        return isElementPresent(EMPTY_CART);
+        return isElementPresent(emptyCart);
     }
 }
