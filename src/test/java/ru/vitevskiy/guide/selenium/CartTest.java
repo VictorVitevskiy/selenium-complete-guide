@@ -29,7 +29,7 @@ public class CartTest extends BaseTest {
         for (int i = 0; i < 3; i++) {
             homePage.clickProductElement();
             productPage.clickAddToCartButton();
-            homePage.checkProductAddingToTheCart(++productsInCart + "");
+            homePage.checkProductAddingToTheCart(++productsInCart);
             homePage.clickHomeButton();
         }
 
@@ -46,7 +46,6 @@ public class CartTest extends BaseTest {
                 }
             }
         }
-
         assertTrue(cartPage.checkForEmptyCart());
     }
 }
